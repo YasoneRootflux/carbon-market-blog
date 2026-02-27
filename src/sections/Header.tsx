@@ -11,7 +11,7 @@ interface HeaderProps {
   fallbackDate?: string;
 }
 
-export default function Header({ onRefresh, loading, lastUpdate, usingFallback, fallbackDate }: HeaderProps) {
+export default function Header({ onRefresh, loading, usingFallback, fallbackDate }: HeaderProps) {
   const { t } = useTranslation();
   const { theme, toggleTheme } = useTheme();
 

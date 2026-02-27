@@ -1,7 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { TrendingUp, TrendingDown, Minus, Activity } from 'lucide-react';
 import type { CEASummary, CCERData } from '@/types/carbon-market';
-import { cn } from '@/lib/utils';
 
 interface DataOverviewProps {
   cea: CEASummary | null;
