@@ -1,0 +1,122 @@
+{
+  "header": {
+    "title": "碳市场日报",
+    "subtitle": "中国CEA & CCER行情数据分析",
+    "dataUpdate": "数据更新",
+    "historicalData": "使用历史数据",
+    "refresh": "刷新数据",
+    "dataSource": "数据源",
+    "monitoring": "实时数据监控中"
+  },
+  "sections": {
+    "todayMarket": "今日行情",
+    "trendChart": "走势图表",
+    "marketAnalysis": "市场分析",
+    "historyData": "历史数据"
+  },
+  "cea": {
+    "title": "CEA碳排放权",
+    "subtitle": "全国碳排放权交易市场",
+    "open": "今开",
+    "high": "最高",
+    "low": "最低",
+    "close": "收盘",
+    "change": "较昨收",
+    "mainContract": "主力",
+    "volume": "成交量",
+    "turnover": "成交额",
+    "unit": "元/吨",
+    "volumeUnit": "吨",
+    "noData": "今日无CEA交易数据",
+    "refreshHint": "请稍后刷新或查看历史数据"
+  },
+  "ccer": {
+    "title": "CCER自愿减排",
+    "subtitle": "全国温室气体自愿减排交易市场",
+    "priceChange": "涨跌",
+    "status": "状态",
+    "volume": "成交量",
+    "turnover": "成交额",
+    "unit": "元/吨",
+    "volumeUnit": "吨",
+    "activity": "交易活跃度",
+    "activityHigh": "高",
+    "activityMedium": "中",
+    "activityLow": "低",
+    "statusActive": "活跃",
+    "statusNormal": "一般",
+    "statusLight": "清淡",
+    "noData": "今日无CCER交易数据",
+    "holidayHint": "自愿减排市场可能因节假日暂停交易"
+  },
+  "chart": {
+    "last7Days": "近7天",
+    "last14Days": "近14天",
+    "last30Days": "近30天",
+    "priceTrend": "价格走势",
+    "changePercent": "涨跌幅",
+    "volume": "成交量",
+    "ceaClose": "CEA收盘价",
+    "ccerPrice": "CCER均价",
+    "ceaVolume": "CEA成交量",
+    "ccerVolume": "CCER成交量"
+  },
+  "analysis": {
+    "dataNote": "数据说明",
+    "ceaAnalysis": "CEA市场分析",
+    "ccerAnalysis": "CCER市场分析",
+    "marketTrend": "市场趋势综合判断",
+    "basedOn": "基于CEA和CCER市场综合分析",
+    "sentiment": "市场情绪",
+    "sentimentBullish": "偏多",
+    "sentimentActive": "活跃",
+    "volumeStatus": "成交量",
+    "volumeNormal": "正常",
+    "volatility": "波动率",
+    "volatilityMedium": "中等",
+    "shortTermTrend": "短期趋势",
+    "trendRise": "看涨",
+    "marketActivity": "市场活跃度",
+    "activityMedium": "中等",
+    "investmentAdvice": "投资建议",
+    "adviceWatch": "关注",
+    "dataSource": "数据来源",
+    "viewOriginal": "查看原始数据"
+  },
+  "history": {
+    "all": "全部",
+    "date": "日期",
+    "ceaClose": "CEA收盘",
+    "ceaChange": "CEA涨跌",
+    "ceaVolume": "CEA成交量",
+    "ccerPrice": "CCER均价",
+    "ccerChange": "CCER涨跌",
+    "ccerVolume": "CCER成交量",
+    "action": "操作",
+    "detail": "详情",
+    "showing": "显示",
+    "to": "-",
+    "items": "条，共",
+    "total": "条"
+  },
+  "footer": {
+    "description": "专注于中国碳市场（CEA & CCER）行情数据分析，为碳交易参与者提供及时、准确的市场信息。",
+    "quickLinks": "快速链接",
+    "carbonNeutral": "碳中和网",
+    "shanghaiExchange": "上海环境能源交易所",
+    "beijingExchange": "北京绿色交易所",
+    "about": "关于",
+    "disclaimer": "数据来源于官方交易所发布，仅供参考，不构成投资建议。",
+    "updateTime": "数据更新：工作日 18:00",
+    "copyright": "碳市场日报. All rights reserved.",
+    "dataSource": "数据来源: 上海环境能源交易所 | 北京绿色交易所"
+  },
+  "theme": {
+    "light": "日间模式",
+    "dark": "夜间模式"
+  },
+  "language": {
+    "zh": "中文",
+    "en": "English"
+  }
+}

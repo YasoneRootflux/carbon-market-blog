@@ -196,13 +196,13 @@ export const useCarbonData = () => {
       // 转换 CEA 数据
       const ceaData: CEAData[] = ceaRaw.map(row => ({
         date: row.date,
-        quotaYear: 'CEA24', // 默认主力合约
+        quotaYear: 'CEA24',
         open: parseFloat(row['开盘']) || 0,
         high: parseFloat(row['最高']) || 0,
         low: parseFloat(row['最低']) || 0,
         close: parseFloat(row['收盘']) || 0,
         changePercent: parseFloat(row['涨跌幅']) || 0,
-        volume: 0, // CSV中没有成交量，设为0
+        volume: 0,
         turnover: 0,
       }));
       
@@ -224,7 +224,6 @@ export const useCarbonData = () => {
       let actualDate = today;
       let isFallback = false;
       
-      // 如果今天没有数据，查找最近的历史数据
       if (!ceaForToday && !ccerForToday) {
         let searchDate = getPrevWorkDay(today);
         let searchCount = 0;
@@ -250,7 +249,6 @@ export const useCarbonData = () => {
       
       setUsingFallbackDate(isFallback);
       
-      // 构建所有数据
       const allData: MarketData[] = ceaSummaries.map(cea => {
         const ccer = ccerData.find(c => c.date === cea.date);
         return {
@@ -261,7 +259,6 @@ export const useCarbonData = () => {
         };
       });
       
-      // 添加只有 CCER 的数据
       ccerData.forEach(ccer => {
         if (!allData.find(d => d.date === ccer.date)) {
           allData.push({

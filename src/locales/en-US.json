@@ -1,0 +1,122 @@
+{
+  "header": {
+    "title": "Carbon Market Daily",
+    "subtitle": "China CEA & CCER Market Data Analysis",
+    "dataUpdate": "Data Updated",
+    "historicalData": "Using Historical Data",
+    "refresh": "Refresh Data",
+    "dataSource": "Data Source",
+    "monitoring": "Real-time Data Monitoring"
+  },
+  "sections": {
+    "todayMarket": "Today's Market",
+    "trendChart": "Trend Charts",
+    "marketAnalysis": "Market Analysis",
+    "historyData": "Historical Data"
+  },
+  "cea": {
+    "title": "CEA Carbon Allowance",
+    "subtitle": "National Carbon Emission Trading Market",
+    "open": "Open",
+    "high": "High",
+    "low": "Low",
+    "close": "Close",
+    "change": "Change",
+    "mainContract": "Main",
+    "volume": "Volume",
+    "turnover": "Turnover",
+    "unit": "CNY/ton",
+    "volumeUnit": "tons",
+    "noData": "No CEA trading data today",
+    "refreshHint": "Please refresh later or check historical data"
+  },
+  "ccer": {
+    "title": "CCER Voluntary Reduction",
+    "subtitle": "National GHG Voluntary Emission Reduction Market",
+    "priceChange": "Change",
+    "status": "Status",
+    "volume": "Volume",
+    "turnover": "Turnover",
+    "unit": "CNY/ton",
+    "volumeUnit": "tons",
+    "activity": "Trading Activity",
+    "activityHigh": "High",
+    "activityMedium": "Medium",
+    "activityLow": "Low",
+    "statusActive": "Active",
+    "statusNormal": "Normal",
+    "statusLight": "Light",
+    "noData": "No CCER trading data today",
+    "holidayHint": "Voluntary reduction market may be suspended due to holidays"
+  },
+  "chart": {
+    "last7Days": "Last 7 Days",
+    "last14Days": "Last 14 Days",
+    "last30Days": "Last 30 Days",
+    "priceTrend": "Price Trend",
+    "changePercent": "Change %",
+    "volume": "Volume",
+    "ceaClose": "CEA Close",
+    "ccerPrice": "CCER Avg Price",
+    "ceaVolume": "CEA Volume",
+    "ccerVolume": "CCER Volume"
+  },
+  "analysis": {
+    "dataNote": "Data Note",
+    "ceaAnalysis": "CEA Market Analysis",
+    "ccerAnalysis": "CCER Market Analysis",
+    "marketTrend": "Comprehensive Market Trend",
+    "basedOn": "Based on CEA & CCER Market Analysis",
+    "sentiment": "Market Sentiment",
+    "sentimentBullish": "Bullish",
+    "sentimentActive": "Active",
+    "volumeStatus": "Volume",
+    "volumeNormal": "Normal",
+    "volatility": "Volatility",
+    "volatilityMedium": "Medium",
+    "shortTermTrend": "Short-term Trend",
+    "trendRise": "Rising",
+    "marketActivity": "Market Activity",
+    "activityMedium": "Medium",
+    "investmentAdvice": "Investment Advice",
+    "adviceWatch": "Watch",
+    "dataSource": "Data Source",
+    "viewOriginal": "View Original Data"
+  },
+  "history": {
+    "all": "All",
+    "date": "Date",
+    "ceaClose": "CEA Close",
+    "ceaChange": "CEA Change",
+    "ceaVolume": "CEA Volume",
+    "ccerPrice": "CCER Price",
+    "ccerChange": "CCER Change",
+    "ccerVolume": "CCER Volume",
+    "action": "Action",
+    "detail": "Detail",
+    "showing": "Showing",
+    "to": "-",
+    "items": "of",
+    "total": "total"
+  },
+  "footer": {
+    "description": "Focusing on China carbon market (CEA & CCER) data analysis, providing timely and accurate market information for carbon trading participants.",
+    "quickLinks": "Quick Links",
+    "carbonNeutral": "Carbon Neutral Network",
+    "shanghaiExchange": "Shanghai Environment Energy Exchange",
+    "beijingExchange": "Beijing Green Exchange",
+    "about": "About",
+    "disclaimer": "Data sourced from official exchanges, for reference only, not investment advice.",
+    "updateTime": "Data Update: Weekdays 18:00",
+    "copyright": "Carbon Market Daily. All rights reserved.",
+    "dataSource": "Data Source: Shanghai EEX | Beijing GEX"
+  },
+  "theme": {
+    "light": "Light Mode",
+    "dark": "Dark Mode"
+  },
+  "language": {
+    "zh": "中文",
+    "en": "English"
+  }
+}
