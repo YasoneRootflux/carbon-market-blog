@@ -1,5 +1,7 @@
 {
-  "last_fetch": "2026-02-27T10:44:52.313751",
+  "last_fetch": "2026-02-27T05:46:10.126249",
   "last_data_date": "2026-02-27",
-  "source_url": "https://www.ccn.ac.cn/cets"
+  "source_url": "https://news.smm.cn/news/103781737",
+  "fetch_status": "partial_success",
+  "notes": "ccn.ac.cn SSL error, CEA data obtained from SMM (Shanghai Metals Market), CCER data not available for 2026-02-27"
 }
