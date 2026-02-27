@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国碳市场行情监测</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 24px;
+        }
+        .card h2 {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .price {
+            font-size: 36px;
+            font-weight: 300;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        .change {
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .change.up { color: #4ade80; }
+        .change.down { color: #f87171; }
+        .change.neutral { color: #888; }
+        .chart-container {
+            background: #141414;
+            border: 1px solid #222;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+            height: 400px;
+            position: relative;
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .data-table th,
+        .data-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #222;
+        }
+        .data-table th {
+            color: #888;
+            font-weight: 400;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        .data-table td {
+            color: #e0e0e0;
+        }
+        .data-table a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        .data-table a:hover {
+            text-decoration: underline;
+        }
+        .note {
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+        }
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #666;
+        }
+        .error {
+            background: #1a0f0f;
+            border: 1px solid #3a1f1f;
+            color: #f87171;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .data-status {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+        .data-status .stale {
+            color: #f87171;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>中国碳市场行情监测</h1>
+        <p class="subtitle">CEA 与 CCER 每日行情数据可视化</p>
+        
+        <div id="loading" class="loading">加载数据中...</div>
+        
+        <div id="content" style="display: none;">
+            <p class="data-status" id="dataStatus"></p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h2>CEA 收盘价</h2>
+                    <div class="price" id="cea-close">--</div>
+                    <span class="change" id="cea-change">--</span>
+                </div>
+                <div class="card">
+                    <h2>CCER 均价</h2>
+                    <div class="price" id="ccer-price">--</div>
+                    <span class="change" id="ccer-change">--</span>
+                </div>
+                <div class="card">
+                    <h2>CCER 成交量</h2>
+                    <div class="price" id="ccer-volume">--</div>
+                    <span style="color: #666; font-size: 12px;">吨</span>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <canvas id="priceChart"></canvas>
+            </div>
+            
+            <div class="card">
+                <h2>近期数据明细</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>日期</th>
+                            <th>CEA 收盘</th>
+                            <th>CEA 涨跌</th>
+                            <th>CCER 均价</th>
+                            <th>CCER 涨跌</th>
+                            <th>来源</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="note">
+                数据来源：上海环境能源交易所、北京绿色交易所 | 
+                更新时间：<span id="updateTime">--</span> | 
+                <a href="https://www.ccn.ac.cn/cets" target="_blank" style="color: #60a5fa;">查看原始数据</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const SOURCE_URL = 'https://www.ccn.ac.cn/cets';
+        
+        // CSV 解析函数
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            if (lines.length < 2) return [];
+            
+            const headers = parseCSVLine(lines[0]);
+            const result = [];
+            
+            for (let i = 1; i < lines.length; i++) {
+                const values = parseCSVLine(lines[i]);
+                if (values.length >= headers.length) {
+                    const obj = {};
+                    headers.forEach((h, idx) => {
+                        obj[h] = values[idx] || '';
+                    });
+                    result.push(obj);
+                }
+            }
+            return result;
+        }
+        
+        // 处理带引号的 CSV 字段
+        function parseCSVLine(line) {
+            const result = [];
+            let current = '';
+            let inQuotes = false;
+            
+            for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    result.push(current.trim());
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            result.push(current.trim());
+            return result;
+        }
+        
+        async function loadData() {
+            try {
+                // 尝试多个路径加载数据
+                const paths = [
+                    'data/cea_history.csv',
+                    '../data/cea_history.csv',
+                    './data/cea_history.csv',
+                    '/carbon-market-blog/data/cea_history.csv'
+                ];
+                
+                let ceaText = null;
+                let ccerText = null;
+                
+                for (const path of paths) {
+                    try {
+                        const resp = await fetch(path, { cache: 'no-cache' });
+                        if (resp.ok) {
+                            ceaText = await resp.text();
+                            break;
+                        }
+                    } catch (e) {}
+                }
+                
+                if (!ceaText) {
+                    // 使用内嵌示例数据作为 fallback
+                    ceaText = `date,开盘,最高,最低,收盘,涨跌幅,source,source_name
+2025-10-09,55.02,65.0,54.0,55.02,3.99,https://www.ccn.ac.cn/carbon-market/carbon-emissions-trading/ceadate/7695.html,上海环境能源交易所
+2025-12-31,81.00,81.00,81.00,81.00,0.00,https://www.ccn.ac.cn/cets,上海环境能源交易所`;
+                }
+                
+                for (const path of paths.map(p => p.replace('cea', 'ccer'))) {
+                    try {
+                        const resp = await fetch(path, { cache: 'no-cache' });
+                        if (resp.ok) {
+                            ccerText = await resp.text();
+                            break;
+                        }
+                    } catch (e) {}
+                }
+                
+                if (!ccerText) {
+                    ccerText = `date,成交量,成交额,均价,涨跌幅,source,source_name
+2024-01-22,375315,23835280.00,63.51,0,https://www.ccn.ac.cn/carbon-market/ccer/ccerdate/219.html,北京绿色交易所
+2026-02-26,1001,85085.48,85.00,10.39,https://www.ccn.ac.cn/cets,北京绿色交易所`;
+                }
+                
+                const ceaData = parseCSV(ceaText);
+                const ccerData = parseCSV(ccerText);
+                
+                displayData(ceaData, ccerData);
+                
+            } catch (error) {
+                document.getElementById('loading').innerHTML = 
+                    '<div class="error">数据加载失败: ' + error.message + '</div>';
+            }
+        }
+        
+        function displayData(ceaData, ccerData) {
+            if (ceaData.length === 0 || ccerData.length === 0) {
+                document.getElementById('loading').innerHTML = 
+                    '<div class="error">暂无数据</div>';
+                return;
+            }
+            
+            const latestCEA = ceaData[ceaData.length - 1];
+            const latestCCER = ccerData[ccerData.length - 1];
+            
+            // 检查数据是否滞后
+            const today = new Date().toISOString().split('T')[0];
+            const ceaDate = latestCEA['date'];
+            const ccerDate = latestCCER['date'];
+            const isStale = ceaDate !== today;
+            
+            if (isStale) {
+                document.getElementById('dataStatus').innerHTML = 
+                    '<span class="stale">数据截至 ' + ceaDate + '，当日数据尚未更新</span>';
+            }
+            
+            // 显示最新价格
+            document.getElementById('cea-close').textContent = latestCEA['收盘'] + ' 元/吨';
+            document.getElementById('ccer-price').textContent = latestCCER['均价'] + ' 元/吨';
+            document.getElementById('ccer-volume').textContent = 
+                parseInt(latestCCER['成交量'] || 0).toLocaleString();
+            
+            // 显示涨跌幅
+            const ceaChange = parseFloat(latestCEA['涨跌幅'] || 0);
+            const ccerChange = parseFloat(latestCCER['涨跌幅'] || 0);
+            
+            document.getElementById('cea-change').innerHTML = formatChange(ceaChange);
+            document.getElementById('ccer-change').innerHTML = formatChange(ccerChange);
+            
+            // 绘制图表
+            drawChart(ceaData.slice(-30), ccerData.slice(-30));
+            
+            // 填充表格
+            fillTable(ceaData.slice(-10).reverse(), ccerData.slice(-10).reverse());
+            
+            // 更新时间
+            document.getElementById('updateTime').textContent = new Date().toLocaleString('zh-CN');
+            
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+        }
+        
+        function formatChange(value) {
+            if (isNaN(value)) return '<span class="change neutral">--</span>';
+            const arrow = value > 0 ? '▲' : value < 0 ? '▼' : '—';
+            const className = value > 0 ? 'up' : value < 0 ? 'down' : 'neutral';
+            return '<span class="change ' + className + '">' + arrow + ' ' + Math.abs(value).toFixed(2) + '%</span>';
+        }
+        
+        function drawChart(ceaData, ccerData) {
+            const ctx = document.getElementById('priceChart').getContext('2d');
+            const labels = ceaData.map(d => d['date']);
+            const ceaPrices = ceaData.map(d => parseFloat(d['收盘']) || 0);
+            const ccerPrices = ccerData.map(d => parseFloat(d['均价']) || 0);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'CEA 收盘价',
+                        data: ceaPrices,
+                        borderColor: '#60a5fa',
+                        backgroundColor: 'rgba(96, 165, 250, 0.1)',
+                        tension: 0.3,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'CCER 均价',
+                        data: ccerPrices,
+                        borderColor: '#4ade80',
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                        tension: 0.3,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    plugins: {
+                        legend: {
+                            labels: { color: '#888' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: { color: '#666' },
+                            grid: { color: '#222' }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: { color: '#60a5fa' },
+                            grid: { color: '#222' },
+                            title: {
+                                display: true,
+                                text: 'CEA (元/吨)',
+                                color: '#60a5fa'
+                            }
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            ticks: { color: '#4ade80' },
+                            grid: { drawOnChartArea: false },
+                            title: {
+                                display: true,
+                                text: 'CCER (元/吨)',
+                                color: '#4ade80'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function fillTable(ceaData, ccerData) {
+            const tbody = document.getElementById('dataTableBody');
+            tbody.innerHTML = ceaData.map(function(cea, i) {
+                const ccer = ccerData[i] || {};
+                const ceaChange = parseFloat(cea['涨跌幅'] || 0);
+                const ccerChange = parseFloat(ccer['涨跌幅'] || 0);
+                return '<tr>' +
+                    '<td>' + cea['date'] + '</td>' +
+                    '<td>' + cea['收盘'] + ' 元/吨</td>' +
+                    '<td>' + formatChange(ceaChange) + '</td>' +
+                    '<td>' + (ccer['均价'] || '--') + ' 元/吨</td>' +
+                    '<td>' + formatChange(ccerChange) + '</td>' +
+                    '<td><a href="' + SOURCE_URL + '" target="_blank">查看</a></td>' +
+                '</tr>';
+            }).join('');
+        }
+        
+        loadData();
+    </script>
+</body>
+</html>
