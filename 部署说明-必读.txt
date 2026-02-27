@@ -1,0 +1,71 @@
+# 中国碳市场行情监测系统 - 部署说明
+
+## 最简单的方式（推荐）
+
+### 第一步：下载文件
+从 Kimi 对话中下载 `carbon-market-blog.zip`，解压到桌面。
+
+### 第二步：运行部署脚本
+
+**Windows 用户：**
+- 双击运行 `一键部署.bat`
+- 按提示输入 GitHub 用户名
+- 根据提示完成 GitHub 登录
+
+**Mac 用户：**
+- 打开终端（Terminal）
+- 输入 `cd Desktop/carbon-market-blog` 回车
+- 输入 `bash 一键部署.sh` 回车
+- 按提示输入 GitHub 用户名
+
+### 第三步：启用网站（关键！）
+
+1. 访问 `https://github.com/你的用户名/carbon-market-blog/settings/pages`
+2. 找到 "Source" 部分
+3. 选择 "Deploy from a branch"
+4. Branch 选择 "main"，文件夹选择 "/docs"
+5. 点击 "Save"
+
+### 第四步：等待并访问
+
+等待 2-3 分钟，访问：
+```
+https://你的用户名.github.io/carbon-market-blog/
+```
+
+---
+
+## 如果你还没有 GitHub 账号
+
+1. 访问 https://github.com/signup
+2. 用邮箱注册（约 2 分钟）
+3. 创建仓库：
+   - 点击右上角 "+" → "New repository"
+   - 仓库名填 `carbon-market-blog`
+   - 选择 "Public"（公开）
+   - 勾选 "Add a README file"
+   - 点击 "Create repository"
+
+---
+
+## 系统功能
+
+- **自动更新**：工作日 15:30 自动抓取最新行情
+- **数据展示**：CEA 收盘价、CCER 均价、成交量、走势图
+- **数据溯源**：每个数据点可点击跳转到官方来源
+- **容错处理**：当日数据未更新时，自动显示前一日数据并标注
+
+---
+
+## 历史数据覆盖
+
+| 数据类型 | 时间范围 | 记录数 |
+|---------|---------|--------|
+| CEA | 2025-10 至 2026-02 | 60+ 条 |
+| CCER | 2024-01 至 2026-02 | 204+ 条 |
+
+---
+
+## 需要帮助？
+
+部署过程中遇到任何问题，把错误信息复制给我，我帮你解决。
