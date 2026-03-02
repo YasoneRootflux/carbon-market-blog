@@ -1,7 +1,25 @@
 {
-  "last_fetch": "2026-02-27T05:46:10.126249",
-  "last_data_date": "2026-02-27",
-  "source_url": "https://news.smm.cn/news/103781737",
-  "fetch_status": "partial_success",
-  "notes": "ccn.ac.cn SSL error, CEA data obtained from SMM (Shanghai Metals Market), CCER data not available for 2026-02-27"
+  "last_fetch": "2026-03-02T05:38:58.981655",
+  "last_data_date": "2026-03-02",
+  "source_url": "https://www.ccn.ac.cn/cets",
+  "fetch_status": "success",
+  "cea_data": {
+    "date": "2026-03-02",
+    "source": "https://www.ccn.ac.cn/cets",
+    "source_name": "上海环境能源交易所",
+    "开盘": "80.50",
+    "最高": "",
+    "最低": "",
+    "收盘": "80.50",
+    "涨跌幅": "0.00"
+  },
+  "ccer_data": {
+    "date": "2026-03-02",
+    "source": "https://www.ccn.ac.cn/cets",
+    "source_name": "北京绿色交易所",
+    "成交量": "2002",
+    "成交额": "172172.49",
+    "均价": "86.00",
+    "涨跌幅": "-1.40"
+  }
 }
