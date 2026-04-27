@@ -1,25 +1,25 @@
 {
-  "last_fetch": "2026-04-24T06:37:21.288074",
-  "last_data_date": "2026-04-24",
-  "source_url": "https://www.ccn.ac.cn/cets",
+  "last_fetch": "2026-04-27T06:35:28.232652",
+  "last_data_date": "2026-04-27",
+  "source_url": "http://www.ccn.ac.cn/cets",
   "fetch_status": "success",
   "cea_data": {
-    "date": "2026-04-24",
-    "source": "https://www.ccn.ac.cn/cets",
+    "date": "2026-04-27",
+    "source": "http://www.ccn.ac.cn/cets",
     "source_name": "上海环境能源交易所",
-    "开盘": "77.50",
-    "最高": "78.00",
-    "最低": "77.50",
-    "收盘": "77.59",
-    "涨跌幅": "1.80"
+    "开盘": "79.30",
+    "最高": "79.50",
+    "最低": "78.50",
+    "收盘": "79.00",
+    "涨跌幅": "1.82"
   },
   "ccer_data": {
-    "date": "2026-04-24",
-    "source": "https://www.ccn.ac.cn/cets",
+    "date": "2026-04-27",
+    "source": "http://www.ccn.ac.cn/cets",
     "source_name": "北京绿色交易所",
-    "成交量": "20500",
-    "成交额": "1711000.00",
+    "成交量": "0",
+    "成交额": "0.00",
     "均价": "83.46",
-    "涨跌幅": "3.97"
+    "涨跌幅": "0.00"
   }
 }

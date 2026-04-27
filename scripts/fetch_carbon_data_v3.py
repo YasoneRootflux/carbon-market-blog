@@ -16,22 +16,29 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), '..', 'data')
-SOURCE_URL = 'https://www.ccn.ac.cn/cets'
+SOURCE_URL = 'http://www.ccn.ac.cn/cets'
 
 
 def fetch_page_with_curl(url, timeout=30):
-    """使用curl获取页面内容，规避Python SSL握手问题"""
+    """使用wget获取页面内容，规避Python SSL握手问题"""
+    import tempfile
+    with tempfile.NamedTemporaryFile(suffix='.html', delete=False) as tmp:
+        tmp_path = tmp.name
     cmd = [
-        'curl', '-s', '--max-time', str(timeout), '-L',
-        '-H', 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        '-H', 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        '-H', 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8',
+        'wget', '-q', '--no-check-certificate',
+        '--timeout', str(timeout),
+        '--max-redirect', '5',
+        '--user-agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        '-O', tmp_path,
         url
     ]
     result = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout + 5)
     if result.returncode != 0:
-        raise RuntimeError(f"curl failed with code {result.returncode}: {result.stderr}")
-    return result.stdout
+        raise RuntimeError(f"wget failed with code {result.returncode}: {result.stderr}")
+    with open(tmp_path, 'r', encoding='utf-8', errors='ignore') as f:
+        content = f.read()
+    os.unlink(tmp_path)
+    return content
 
 
 def fetch_current_data():
